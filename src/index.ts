@@ -3,6 +3,7 @@ import path from "node:path";
 import core from "@actions/core";
 import github from "@actions/github";
 import type {ReleaseEvent} from "@octokit/webhooks-types/schema.d.ts";
+import {parse as parseUriTemplate} from "rfc6570-uri-template";
 
 // Functions
 function error(message: string): never {
@@ -50,15 +51,16 @@ const release = await octokit.rest.repos.getRelease({
 });
 core.info("Uploading files...");
 const responses = await Promise.all(
-    files.map(file => {
+    files.map(async file => {
         core.info(`Uploading ${file.name}...`);
-        return fetch(release.data.upload_url.replace("{?name,label}", "?name=" + encodeURIComponent(file.name)), {
+        const res = await fetch(parseUriTemplate(release.data.upload_url).expand({name: file.name}), {
             method: "POST",
             headers: {
                 "Authorization": "token " + GITHUB_TOKEN,
             },
             body: file
-        }).then(res => ({res, file}))
+        });
+        return ({res, file});
     })
 );
 core.info("Done uploading files.");
