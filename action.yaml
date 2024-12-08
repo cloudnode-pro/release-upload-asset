@@ -5,7 +5,7 @@ inputs:
     description: The ID of the release to which to upload files.
     required: false
   files:
-    description: Paths to the files to upload. Separated by newline. You can specify the MIME type for each file after the file path, preceded by a `&`.
+    description: Paths to the files to upload. Separated by newline.
     required: true
 runs:
   using: docker

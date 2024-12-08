@@ -11,6 +11,17 @@ function error(message: string): never {
     process.exit(1);
 }
 
+function parseInputFileParams(input: string): {path: string, params: Record<string, string>} {
+    const [filePath, ...rawParams] = input.split(/(?<!\\);\s*/);
+    const params: Record<string, string> = {};
+    for (const rawParam of rawParams) {
+        const equalsIndex = rawParam.indexOf("=");
+        if (equalsIndex === -1) params[rawParam.trim()] = "";
+        else params[rawParam.substring(0, equalsIndex)] = rawParam.substring(equalsIndex + 1);
+    }
+    return {path: filePath!, params};
+}
+
 // Action inputs
 const GH_INPUTS: Record<string, string> = JSON.parse(process.env.GH_INPUTS!);
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN!;
@@ -33,11 +44,12 @@ else {
 // Read the files
 core.info("Reading files...");
 const files = await Promise.all(inputs.files.split("\n").map(async f => {
-    const hasMimeType = f.lastIndexOf("&") !== -1;
-    const filePath = (hasMimeType ? f.substring(0, f.lastIndexOf("&")) : f).trim();
-    const mimeType = (hasMimeType ? f.substring(f.lastIndexOf("&") + 1) : "application/octet-stream").trim().toLowerCase();
+    const {path: filePath, params} = parseInputFileParams(f);
+    const mimeType = params["type"] ?? "application/octet-stream";
+    const fileName = params["filename"] ?? path.basename(filePath);
+
     const data = await fs.readFile(filePath);
-    core.info(`Read file ${filePath} (type ${mimeType}, size ${data.length} bytes)`);
+    core.info(`Read file: ${filePath} (type=${mimeType}; name=${fileName}; size=${data.length})`);
     return new File([data], path.basename(filePath), {type: mimeType});
 }));
 
