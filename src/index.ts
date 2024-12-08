@@ -49,6 +49,7 @@ const release = await octokit.rest.repos.getRelease({
     repo: github.context.repo.repo,
     release_id: releaseId,
 });
+
 core.info("Uploading files...");
 const responses = await Promise.all(
     files.map(async file => {
@@ -63,6 +64,7 @@ const responses = await Promise.all(
         return ({res, file});
     })
 );
+
 core.info("Done uploading files.");
 const failedUploads = responses.filter(r => !r.res.ok);
 if (failedUploads.length > 0) {
