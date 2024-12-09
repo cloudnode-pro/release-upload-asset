@@ -1,0 +1,18 @@
+name: Release Upload Asset
+description: Upload files to a GitHub release
+inputs:
+  release-id:
+    description: The ID of the release to which to upload files.
+    required: false
+  files:
+    description: Paths to the files to upload. Separated by newline.
+    required: true
+runs:
+  using: docker
+  image: Dockerfile
+  env:
+    GH_INPUTS: ${{ toJSON(inputs) }}
+
+branding:
+  icon: upload
+  color: blue
