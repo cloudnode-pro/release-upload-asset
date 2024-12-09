@@ -4,11 +4,15 @@ on:
   release:
     types: [published]
 
+permissions:
+  packages: write
+
 env:
   IMAGE_NAME: release-upload-asset
 
 jobs:
   publish:
+    name: Publish
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
