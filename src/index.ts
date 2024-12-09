@@ -43,15 +43,21 @@ else {
 
 // Read the files
 core.info("Reading files...");
-const files = await Promise.all(inputs.files.split("\n").map(async f => {
+const files = (await Promise.all(inputs.files.split("\n").map(async f => {
     const {path: filePath, params} = parseInputFileParams(f);
+    if ("if" in params) {
+        if (params.if === "false")
+            return null;
+        else if (params.if !== "false")
+            core.warning(`Invalid condition value ‘${params.if}’. Must be ‘true’ or ‘false’.`);
+    }
     const mimeType = params["type"] ?? "application/octet-stream";
     const fileName = params["filename"] ?? path.basename(filePath);
 
     const data = await fs.readFile(filePath);
     core.info(`Read file: ${filePath} (type=${mimeType}; name=${fileName}; size=${data.length})`);
     return new File([data], path.basename(filePath), {type: mimeType});
-}));
+}))).filter(f => f !== null);
 
 // Upload the files
 const octokit = github.getOctokit(GITHUB_TOKEN);
