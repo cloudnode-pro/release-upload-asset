@@ -9,7 +9,7 @@ Upload files to a GitHub release.
 steps:
   # …
   - name: Upload to release
-    uses: cloudnode-pro/release-upload-asset@1.0.1
+    uses: cloudnode-pro/release-upload-asset@1.0.2
     with:
       # See the ‘Inputs’ section below for details.
       gh-token: ${{ github.token }}
