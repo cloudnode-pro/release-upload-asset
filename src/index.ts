@@ -24,9 +24,9 @@ function parseInputFileParams(input: string): {path: string, params: Record<stri
 
 // Action inputs
 const GH_INPUTS: Record<string, string> = JSON.parse(process.env.GH_INPUTS!);
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN!;
 
 const inputs = {
+    ghToken: GH_INPUTS["gh-token"]!,
     releaseId: GH_INPUTS["release-id"]!,
     files: GH_INPUTS["files"]!,
 };
@@ -60,7 +60,7 @@ const files = (await Promise.all(inputs.files.split("\n").map(async f => {
 }))).filter(f => f !== null);
 
 // Upload the files
-const octokit = github.getOctokit(GITHUB_TOKEN);
+const octokit = github.getOctokit(inputs.ghToken);
 core.info("Getting release...");
 const release = await octokit.rest.repos.getRelease({
     owner: github.context.repo.owner,
@@ -75,7 +75,7 @@ const responses = await Promise.all(
         const res = await fetch(parseUriTemplate(release.data.upload_url).expand({name: file.name}), {
             method: "POST",
             headers: {
-                "Authorization": "token " + GITHUB_TOKEN,
+                "Authorization": "token " + inputs.ghToken,
             },
             body: file
         });

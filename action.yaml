@@ -1,6 +1,9 @@
 name: Release Upload Asset
 description: Upload files to a GitHub release
 inputs:
+  gh-token:
+    description: The GitHub token to use for authentication.
+    required: true
   release-id:
     description: The ID of the release to which to upload files.
     required: false
