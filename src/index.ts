@@ -86,7 +86,7 @@ const responses = await Promise.all(
 core.info("Done uploading files.");
 const failedUploads = responses.filter(r => !r.res.ok);
 if (failedUploads.length > 0) {
-    core.error(`Failed to upload ${failedUploads} file${failedUploads.length === 1 ? "" : "s"}:`);
+    core.error(`Failed to upload ${failedUploads.length} file${failedUploads.length === 1 ? "" : "s"}:`);
     for (const failed of failedUploads) {
         const body = await failed.res.text();
         let parsed: string;
