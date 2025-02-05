@@ -6,17 +6,23 @@ Upload files to a GitHub release.
 
 ```yaml
 # …
-steps:
-  # …
-  - name: Upload to release
-    uses: cloudnode-pro/release-upload-asset@1.0.2
-    with:
-      # See the ‘Inputs’ section below for details.
-      gh-token: ${{ github.token }}
-      release-id: 123456 # Optional for `release` events.
-      files: |
-        path/to/file.txt; type=text/plain; name=File1.txt
-        path/to/foo/bar.baz; if=${{ github.event_name == 'release' }}
+jobs:
+  publish:
+    # …
+    permissions:
+      contents: write
+    # …
+    steps:
+      # …
+      - name: Upload to release
+        uses: cloudnode-pro/release-upload-asset@1.0.2
+        with:
+          # See the ‘Inputs’ section below for details.
+          gh-token: ${{ github.token }}
+          release-id: 123456 # Optional for `release` events.
+          files: |
+            path/to/file.txt; type=text/plain; name=File1.txt
+            path/to/foo/bar.baz; if=${{ github.event_name == 'release' }}
 ```
 
 ## Inputs
@@ -65,5 +71,15 @@ files: |-
   /path/to/file3.txt; if=${{ 'foo' == 'bar' }}
 ```
 
+### Permissions
 
+Uploading release assets requires the `contents: write`.
 
+See: [Controlling permissions for GITHUB_TOKEN](https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/controlling-permissions-for-github_token)
+
+Example:
+
+```yaml
+permissions:
+  contents: write
+```
