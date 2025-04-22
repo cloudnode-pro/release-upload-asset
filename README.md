@@ -15,7 +15,7 @@ jobs:
     steps:
       # …
       - name: Upload to release
-        uses: cloudnode-pro/release-upload-asset@1.0.2
+        uses: cloudnode-pro/release-upload-asset@v1
         with:
           # See the ‘Inputs’ section below for details.
           gh-token: ${{ github.token }}
