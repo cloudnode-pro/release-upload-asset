@@ -12,7 +12,7 @@ inputs:
     required: true
 runs:
   using: docker
-  image: docker://ghcr.io/cloudnode-pro/release-upload-asset:1.0.5
+  image: docker://ghcr.io/cloudnode-pro/release-upload-asset:1.0.6
   env:
     GH_INPUTS: ${{ toJSON(inputs) }}
 
