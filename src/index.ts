@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import core from "@actions/core";
-import github from "@actions/github";
+import * as core from "@actions/core";
+import * as github from "@actions/github";
 import type {ReleaseEvent} from "@octokit/webhooks-types/schema.d.ts";
 import {parse as parseUriTemplate} from "rfc6570-uri-template";
 
