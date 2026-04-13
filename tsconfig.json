@@ -11,6 +11,7 @@
     "moduleResolution": "Node16",
     "inlineSourceMap": true,
     "outDir": "./dist",
+    "rootDir": "./src",
     "declaration": false,
     "removeComments": false,
     "importHelpers": true,
