@@ -8,12 +8,12 @@
   },
   "devDependencies": {
     "@octokit/webhooks-types": "^7.6.1",
-    "@types/node": "^24.12.0",
+    "@types/node": "^24.12.2",
     "typescript": "^5.8.3"
   },
   "dependencies": {
     "@actions/core": "^3.0.0",
-    "@actions/github": "^9.0.0",
+    "@actions/github": "^9.1.0",
     "rfc6570-uri-template": "^1.1.0"
   }
 }
