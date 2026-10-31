@@ -9,7 +9,7 @@
   "devDependencies": {
     "@octokit/webhooks-types": "^7.6.1",
     "@types/node": "^24.12.4",
-    "typescript": "^6.0.3"
+    "typescript": "^7.0.2"
   },
   "dependencies": {
     "@actions/core": "^3.0.1",
