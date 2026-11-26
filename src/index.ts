@@ -52,7 +52,7 @@ const files = (await Promise.all(inputs.files.split("\n").map(async f => {
             core.warning(`Invalid condition value ‘${params.if}’. Must be ‘true’ or ‘false’.`);
     }
     const mimeType = params["type"] ?? "application/octet-stream";
-    const fileName = params["filename"] ?? path.basename(filePath);
+    const fileName = params["name"] ?? path.basename(filePath);
 
     const data = await fs.readFile(filePath);
     core.info(`Read file: ${filePath} (type=${mimeType}; name=${fileName}; size=${data.length})`);
