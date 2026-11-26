@@ -56,7 +56,7 @@ const files = (await Promise.all(inputs.files.split("\n").map(async f => {
 
     const data = await fs.readFile(filePath);
     core.info(`Read file: ${filePath} (type=${mimeType}; name=${fileName}; size=${data.length})`);
-    return new File([data], path.basename(filePath), {type: mimeType});
+    return new File([data], fileName, {type: mimeType});
 }))).filter(f => f !== null);
 
 // Upload the files
